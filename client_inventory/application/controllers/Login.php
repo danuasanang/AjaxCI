@@ -1,11 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-class Login extends CI_Controller {
-
+defined('BASEPATH') or exit('No direct script access allowed');
+class Login extends CI_Controller
+{
 	public function index()
 	{
-		$this->load->view('login');
+		$this->load->library('session');
+		if ($this->session->userdata('id_user') != null && $this->session->userdata('id_user') != '') {
+			redirect('home');
+		} else {
+			$this->load->view('login');
+		}
 	}
+
 
 	public function setSession()
 	{
@@ -18,5 +24,12 @@ class Login extends CI_Controller {
 		$this->session->set_userdata('email', $email);
 		$this->session->set_userdata('level', $level);
 		$this->session->set_userdata('nama', $nama);
+	}
+
+	public function logout()
+	{
+		$this->load->library('session');
+		$this->session->sess_destroy();
+		redirect('login');
 	}
 }
